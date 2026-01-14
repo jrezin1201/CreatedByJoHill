@@ -1,5 +1,6 @@
 import { PortfolioHero, ProjectGrid } from "@/modules/portfolio";
 import { prisma } from "@/lib/prisma";
+import { ClientEffects } from "@/components/ClientEffects";
 
 export const metadata = {
   title: "Portfolio - Project a Day Challenge",
@@ -37,6 +38,9 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      {/* Client-side effects */}
+      <ClientEffects />
+
       <PortfolioHero
         totalProjects={totalProjects}
         completedDays={completedDays}

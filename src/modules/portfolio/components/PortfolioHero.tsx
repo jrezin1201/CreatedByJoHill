@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Trophy, Calendar, Target, Github, Linkedin, Twitter } from "lucide-react";
+import { GlassCard, AnimatedCounter, Confetti } from "@/components/effects";
 import type { PortfolioHeroProps } from "../lib/types";
 
 export function PortfolioHero({
@@ -10,9 +12,19 @@ export function PortfolioHero({
   targetDays = 30,
 }: PortfolioHeroProps) {
   const progressPercentage = Math.round((completedDays / targetDays) * 100);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  const handleMilestone = () => {
+    if (progressPercentage === 100) {
+      setShowConfetti(true);
+    }
+  };
 
   return (
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Confetti Effect */}
+      <Confetti trigger={showConfetti} />
+
       {/* Animated Background Blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-pulse"></div>
@@ -67,49 +79,55 @@ export function PortfolioHero({
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 max-w-2xl"
         >
           {/* Days Completed */}
-          <div className="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500">
-                <Calendar className="w-5 h-5 text-white" />
+          <GlassCard glowColor="purple">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500">
+                  <Calendar className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-700 dark:text-gray-300">
+                  Days Complete
+                </h3>
               </div>
-              <h3 className="font-semibold text-gray-600 dark:text-gray-400">
-                Days Complete
-              </h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
+                <AnimatedCounter end={completedDays} />/{targetDays}
+              </p>
             </div>
-            <p className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
-              {completedDays}/{targetDays}
-            </p>
-          </div>
+          </GlassCard>
 
           {/* Total Projects */}
-          <div className="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500">
-                <Trophy className="w-5 h-5 text-white" />
+          <GlassCard glowColor="blue">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500">
+                  <Trophy className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-700 dark:text-gray-300">
+                  Total Projects
+                </h3>
               </div>
-              <h3 className="font-semibold text-gray-600 dark:text-gray-400">
-                Total Projects
-              </h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-transparent bg-clip-text">
+                <AnimatedCounter end={totalProjects} />
+              </p>
             </div>
-            <p className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-transparent bg-clip-text">
-              {totalProjects}
-            </p>
-          </div>
+          </GlassCard>
 
           {/* Progress */}
-          <div className="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500">
-                <Target className="w-5 h-5 text-white" />
+          <GlassCard glowColor="pink">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-700 dark:text-gray-300">
+                  Progress
+                </h3>
               </div>
-              <h3 className="font-semibold text-gray-600 dark:text-gray-400">
-                Progress
-              </h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+                <AnimatedCounter end={progressPercentage} suffix="%" onComplete={handleMilestone} />
+              </p>
             </div>
-            <p className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
-              {progressPercentage}%
-            </p>
-          </div>
+          </GlassCard>
         </motion.div>
 
         {/* Progress Bar */}
