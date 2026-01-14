@@ -11,7 +11,6 @@ interface TrailPoint {
 
 export function CursorTrail() {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     let frameId: number | undefined;
@@ -22,8 +21,6 @@ export function CursorTrail() {
       const now = Date.now();
       if (now - lastTime < throttleDelay) return;
       lastTime = now;
-
-      setMousePosition({ x: e.clientX, y: e.clientY });
 
       setTrail((prev) => {
         const newTrail = [

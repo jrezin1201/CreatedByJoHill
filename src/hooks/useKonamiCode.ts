@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const KONAMI_CODE = [
   'ArrowUp',
@@ -16,29 +16,25 @@ const KONAMI_CODE = [
 ];
 
 export function useKonamiCode(callback: () => void) {
-  const [keys, setKeys] = useState<string[]>([]);
-
   useEffect(() => {
+    let keys: string[] = [];
+
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
 
-      setKeys((prevKeys) => {
-        const newKeys = [...prevKeys, key].slice(-KONAMI_CODE.length);
+      keys = [...keys, key].slice(-KONAMI_CODE.length);
 
-        // Check if the sequence matches
-        const matches = KONAMI_CODE.every((code, index) => {
-          const inputKey = newKeys[index]?.toLowerCase();
-          const targetKey = code.toLowerCase();
-          return inputKey === targetKey;
-        });
-
-        if (matches) {
-          callback();
-          return []; // Reset after successful match
-        }
-
-        return newKeys;
+      // Check if the sequence matches
+      const matches = KONAMI_CODE.every((code, index) => {
+        const inputKey = keys[index]?.toLowerCase();
+        const targetKey = code.toLowerCase();
+        return inputKey === targetKey;
       });
+
+      if (matches) {
+        callback();
+        keys = []; // Reset after successful match
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
