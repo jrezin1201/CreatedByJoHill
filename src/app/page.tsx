@@ -54,7 +54,7 @@ export default async function HomePage() {
             TypeScript, Tailwind CSS, and Framer Motion.
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            Part of the "Project a Day" challenge
+            Part of the &quot;Project a Day&quot; challenge
           </p>
         </div>
       </footer>

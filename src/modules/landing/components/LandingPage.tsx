@@ -180,7 +180,7 @@ export function LandingPage() {
             variants={fadeInUp}
             className="text-lg sm:text-xl md:text-2xl text-white/80 max-w-3xl mx-auto mb-3 leading-relaxed px-4"
           >
-            Full-stack developer documenting my "Project a Day" challenge
+            Full-stack developer documenting my &quot;Project a Day&quot; challenge
           </motion.p>
           <motion.p
             variants={fadeInUp}

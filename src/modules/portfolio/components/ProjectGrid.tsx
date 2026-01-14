@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { ProjectCard } from "./ProjectCard";
-import { Filter, Grid3x3, List } from "lucide-react";
+import { Filter, Grid3x3 } from "lucide-react";
 import type { ProjectGridProps } from "../lib/types";
 import { PROJECT_CATEGORIES } from "../lib/types";
 
@@ -58,7 +58,7 @@ export function ProjectGrid({
             {/* Sort Dropdown */}
             <select
               value={selectedSort}
-              onChange={(e) => setSelectedSort(e.target.value as any)}
+              onChange={(e) => setSelectedSort(e.target.value as "dayNumber" | "featured" | "recent")}
               className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="dayNumber">Day Number</option>
