@@ -1,42 +1,33 @@
+// Prisma schema for Web App Template
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          String    @default("user")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-}
-
+// NextAuth.js required models
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -45,6 +36,24 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime?
+  image              String?
+  isPro              Boolean   @default(false)
+  stripeCustomerId   String?   @unique
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  accounts           Account[]
+  sessions           Session[]
+  subscriptions      Subscription[]
+  feedback           Feedback[]
 }
 
 model VerificationToken {
@@ -55,27 +64,59 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// Subscription tracking (optional but helpful)
+model Subscription {
+  id                     String    @id @default(cuid())
+  userId                 String
+  stripeSubscriptionId   String    @unique
+  stripeCustomerId       String
+  stripePriceId          String
+  status                 String
+  currentPeriodStart     DateTime
+  currentPeriodEnd       DateTime
+  cancelAtPeriodEnd      Boolean   @default(false)
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stripeSubscriptionId])
+}
+
+// Feedback from users
+model Feedback {
+  id         String   @id @default(cuid())
+  message    String   @db.Text
+  pathname   String
+  userId     String?
+  userEmail  String?
+  userAgent  String?
+  isPro      Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Portfolio Projects - "Project a Day" Challenge
 model Project {
   id          String   @id @default(cuid())
   title       String
-  description String
-  longDesc    String?
-  image       String
-  tags        String
-  github      String?
-  demo        String?
-  category    String
+  description String   @db.Text
+  dayNumber   Int      // Day 1-30 of challenge
+  image       String   // Project screenshot URL
+  tags        String[] // Tech stack: ["Next.js", "Stripe", "Tailwind"]
+  githubUrl   String?
+  liveUrl     String?
+  category    String   // "AI/ML", "Full Stack", "SaaS", etc.
   featured    Boolean  @default(false)
-  order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
 
-model ContactSubmission {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  message   String
-  status    String   @default("new")
-  createdAt DateTime @default(now())
+  @@index([dayNumber])
+  @@index([category])
+  @@index([featured])
 }
