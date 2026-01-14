@@ -43,7 +43,7 @@ export function PortfolioHero({
         >
           <Sparkles className="w-5 h-5 text-purple-500" />
           <span className="text-sm font-medium bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
-            Project a Day Challenge
+            Production-Ready Applications
           </span>
         </motion.div>
 
@@ -54,9 +54,7 @@ export function PortfolioHero({
           transition={{ delay: 0.1 }}
           className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 text-transparent bg-clip-text"
         >
-          Building {targetDays} projects,
-          <br />
-          one day at a time
+          Featured Projects
         </motion.h1>
 
         {/* Description */}
@@ -66,9 +64,10 @@ export function PortfolioHero({
           transition={{ delay: 0.2 }}
           className="text-xl sm:text-2xl mb-8 max-w-3xl text-gray-600 dark:text-gray-400"
         >
-          Full-stack developer documenting my journey building {targetDays}{" "}
-          production-ready projects in {targetDays} days. Each project showcases
-          different technologies, patterns, and problem-solving approaches.
+          I build production-ready web applications that solve real business problems.
+          From financial analytics to enterprise operations, each project combines modern
+          tech stacks, clean architecture, and exceptional UX. All projects below are
+          live and fully functional.
         </motion.p>
 
         {/* Progress Stats */}

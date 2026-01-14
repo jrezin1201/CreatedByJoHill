@@ -7,6 +7,7 @@
 export { ProjectCard } from "./components/ProjectCard";
 export { ProjectGrid } from "./components/ProjectGrid";
 export { PortfolioHero } from "./components/PortfolioHero";
+export { CyberpunkPortfolioHero } from "./components/CyberpunkPortfolioHero";
 
 export type {
   Project,

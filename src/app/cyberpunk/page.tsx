@@ -1,28 +1,21 @@
 import { CyberpunkHero } from "@/components/cyberpunk/CyberpunkHero";
 import { CyberpunkLayout } from "@/components/cyberpunk/CyberpunkLayout";
-import { prisma } from "@/lib/prisma";
+import { getMockProjects } from "@/modules/portfolio/lib/mockProjects";
+import { ExternalLink } from "lucide-react";
 
 export const metadata = {
   title: "Cyberpunk Portfolio - Electric Neon Theme",
   description:
-    "High-energy cyberpunk portfolio showcasing 30 production-ready projects built in 30 days.",
+    "High-energy cyberpunk portfolio showcasing production-ready projects with electric neon aesthetics.",
 };
 
 async function getProjects() {
-  try {
-    const projects = await prisma.project.findMany({
-      orderBy: [{ featured: "desc" }, { dayNumber: "asc" }],
-    });
-
-    return projects.map((project) => ({
-      ...project,
-      createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-    }));
-  } catch (error) {
-    console.error("Failed to fetch projects:", error);
-    return [];
-  }
+  const projects = await getMockProjects();
+  return projects.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return a.dayNumber - b.dayNumber;
+  });
 }
 
 export default async function CyberpunkPage() {
@@ -55,34 +48,61 @@ export default async function CyberpunkPage() {
             </h2>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent mb-12"></div>
 
-            {/* Add your ProjectGrid component here */}
+            {/* Project Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Example cyberpunk project card */}
-              <div className="hud-card rounded-lg p-6 group cursor-pointer">
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-mono text-cyber-cyan">DAY 01</span>
-                    <span className="text-xs font-mono text-cyber-magenta">FEATURED</span>
+              {projects.map((project) => (
+                <div key={project.id} className="hud-card rounded-lg p-6 group cursor-pointer">
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-mono text-cyber-cyan">
+                        DAY {project.dayNumber.toString().padStart(2, '0')}
+                      </span>
+                      {project.featured && (
+                        <span className="text-xs font-mono text-cyber-magenta">FEATURED</span>
+                      )}
+                    </div>
+                    <h3 className="text-xl font-bold text-cyber-text mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-cyber-textMuted mb-3">
+                      {project.description}
+                    </p>
+                    {project.impact && (
+                      <p className="text-xs text-cyber-lime/80 border-l-2 border-cyber-lime pl-2 mb-3">
+                        {project.impact}
+                      </p>
+                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-cyber-text mb-2">
-                    Project Name
-                  </h3>
-                  <p className="text-sm text-cyber-textMuted">
-                    Project description goes here. Built with Next.js, TypeScript, and more.
-                  </p>
-                </div>
 
-                <div className="flex gap-2 flex-wrap">
-                  <span className="px-2 py-1 text-xs font-mono bg-cyber-cyan/10 border border-cyber-cyan/30 rounded text-cyber-cyan">
-                    Next.js
-                  </span>
-                  <span className="px-2 py-1 text-xs font-mono bg-cyber-magenta/10 border border-cyber-magenta/30 rounded text-cyber-magenta">
-                    TypeScript
-                  </span>
-                </div>
-              </div>
+                  <div className="flex gap-2 flex-wrap mb-4">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs font-mono bg-cyber-cyan/10 border border-cyber-cyan/30 rounded text-cyber-cyan"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 text-xs font-mono bg-cyber-cyan/10 border border-cyber-cyan/30 rounded text-cyber-cyan">
+                        +{project.technologies.length - 3}
+                      </span>
+                    )}
+                  </div>
 
-              {/* Add more project cards or use your ProjectGrid */}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cyber-btn rounded-lg inline-flex items-center gap-2 text-sm"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span className="relative z-10">Live Demo</span>
+                    </a>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -135,7 +155,7 @@ export default async function CyberpunkPage() {
               <span className="text-cyber-lime">█</span>
             </p>
             <p className="text-xs font-mono text-cyber-textMuted/60 mt-2">
-              &copy; {new Date().getFullYear()} Electric Cyberpunk Portfolio - Part of the &quot;Project a Day&quot; challenge
+              &copy; {new Date().getFullYear()} Jordan Hill - Production-ready applications solving real business problems
             </p>
           </div>
         </footer>

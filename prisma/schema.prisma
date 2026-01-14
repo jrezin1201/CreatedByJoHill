@@ -103,20 +103,24 @@ model Feedback {
 
 // Portfolio Projects - "Project a Day" Challenge
 model Project {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  dayNumber   Int      // Day 1-30 of challenge
-  image       String   // Project screenshot URL
-  tags        String[] // Tech stack: ["Next.js", "Stripe", "Tailwind"]
-  githubUrl   String?
-  liveUrl     String?
-  category    String   // "AI/ML", "Full Stack", "SaaS", etc.
-  featured    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  description     String   @db.Text // Short description for cards
+  longDescription String?  @db.Text // Longer description for detail pages
+  dayNumber       Int      // Day 1-30 of challenge
+  imageUrl        String   // Project screenshot URL
+  technologies    String[] // Tech stack: ["Next.js", "Stripe", "Tailwind"]
+  githubUrl       String?
+  liveUrl         String?
+  category        String   // "AI/ML", "Full Stack", "SaaS", etc.
+  impact          String?  @db.Text // Problem solved / impact statement
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([dayNumber])
   @@index([category])
   @@index([featured])
+  @@index([slug])
 }

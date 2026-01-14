@@ -19,9 +19,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       >
         {/* Project Image */}
         <div className="relative h-48 overflow-hidden bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-          {project.image && (
+          {project.imageUrl && (
             <img
-              src={project.image}
+              src={project.imageUrl}
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
@@ -62,7 +62,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
           {/* Tech Stack Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.slice(0, 3).map((tag) => (
+            {project.technologies.slice(0, 3).map((tag) => (
               <span
                 key={tag}
                 className="px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
@@ -70,9 +70,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 {tag}
               </span>
             ))}
-            {project.tags.length > 3 && (
+            {project.technologies.length > 3 && (
               <span className="px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                +{project.tags.length - 3}
+                +{project.technologies.length - 3}
               </span>
             )}
           </div>
@@ -126,9 +126,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             >
               {/* Modal Image */}
               <div className="relative h-80 overflow-hidden bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-                {project.image && (
+                {project.imageUrl && (
                   <img
-                    src={project.image}
+                    src={project.imageUrl}
                     alt={project.title}
                     className="w-full h-full object-cover"
                   />
@@ -159,8 +159,20 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 </div>
 
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                  {project.description}
+                  {project.longDescription || project.description}
                 </p>
+
+                {/* Impact Statement */}
+                {project.impact && (
+                  <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800">
+                    <h4 className="text-sm font-semibold mb-2 uppercase tracking-wide text-green-700 dark:text-green-300">
+                      Impact
+                    </h4>
+                    <p className="text-sm text-green-900 dark:text-green-100">
+                      {project.impact}
+                    </p>
+                  </div>
+                )}
 
                 {/* Tech Stack */}
                 <div className="mb-6">
@@ -168,7 +180,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                     Tech Stack
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
+                    {project.technologies.map((tag) => (
                       <span
                         key={tag}
                         className="px-3 py-1 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"

@@ -1,28 +1,21 @@
 import { PortfolioHero, ProjectGrid } from "@/modules/portfolio";
-import { prisma } from "@/lib/prisma";
+import { getMockProjects } from "@/modules/portfolio/lib/mockProjects";
 
 export const metadata = {
-  title: "Portfolio - Project a Day Challenge",
+  title: "Featured Projects - Jordan Hill",
   description:
-    "Building 30 production-ready projects in 30 days. Each project showcases different technologies and problem-solving approaches.",
+    "Production-ready web applications spanning fintech, SaaS, and data analytics. All projects are live and fully functional.",
 };
 
 async function getProjects() {
-  try {
-    const projects = await prisma.project.findMany({
-      orderBy: [{ featured: "desc" }, { dayNumber: "asc" }],
-    });
-
-    // Convert to plain objects for client components
-    return projects.map((project) => ({
-      ...project,
-      createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-    }));
-  } catch (error) {
-    console.error("Failed to fetch projects:", error);
-    return [];
-  }
+  // Using mock data - no database required!
+  // To switch to database later, replace getMockProjects() with prisma.project.findMany()
+  const projects = await getMockProjects();
+  return projects.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return a.dayNumber - b.dayNumber;
+  });
 }
 
 export default async function PortfolioPage() {
@@ -50,11 +43,11 @@ export default async function PortfolioPage() {
       <footer className="py-12 px-4 border-t border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} Portfolio. Built with Next.js 15,
+            © {new Date().getFullYear()} Jordan Hill. Built with Next.js 15,
             TypeScript, Tailwind CSS, and Framer Motion.
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            Part of the &quot;Project a Day&quot; challenge
+            Production-ready applications solving real business problems
           </p>
         </div>
       </footer>

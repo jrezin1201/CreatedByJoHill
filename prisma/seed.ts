@@ -9,125 +9,95 @@ async function main() {
   await prisma.project.deleteMany();
   console.log("✅ Cleared existing projects");
 
-  // Seed portfolio projects
+  // Seed portfolio projects with your actual live projects
   const projects = await Promise.all([
     prisma.project.create({
       data: {
-        title: "SaaS Starter Kit",
-        description:
-          "Full-stack SaaS boilerplate with authentication, billing, and admin panel. Features NextAuth.js for OAuth, Stripe for payments, and Prisma for database management.",
+        title: "DealQuary",
+        slug: "dealquary",
+        description: "Multi-Deal SaaS Subscription Calculator",
+        longDescription:
+          "A financial intelligence platform that empowers SaaS sales teams to model complex subscription deals with precision. DealQuary calculates MRR, ARR, contract terms, discounts, CAC/LTV ratios, and generates professional statements of work—all in a modern, intuitive interface.",
         dayNumber: 1,
-        image: "/projects/saas-starter.png",
-        tags: ["Next.js", "Stripe", "NextAuth", "Prisma", "TypeScript"],
-        githubUrl: "https://github.com/yourusername/saas-starter",
-        liveUrl: "https://saas-starter.demo",
-        category: "Full Stack",
+        imageUrl: "/projects/dealquary.png",
+        technologies: ["Next.js", "TypeScript", "Prisma", "Stripe", "PostgreSQL", "Tailwind CSS"],
+        githubUrl: null, // Set to your GitHub URL when ready
+        liveUrl: "https://dealquary.app",
+        category: "SaaS",
+        impact: "Transforms complex B2B pricing into clear financial intelligence, eliminating spreadsheet chaos for sales teams",
         featured: true,
       },
     }),
 
     prisma.project.create({
       data: {
-        title: "AI Chat Interface",
-        description:
-          "Streaming chat application with Anthropic Claude integration. Real-time message streaming, conversation history, and prompt library with 50+ templates.",
+        title: "Macro Finance Dashboard",
+        slug: "macro-finance-dashboard",
+        description: "Investment Intelligence Platform",
+        longDescription:
+          "An advanced financial analytics dashboard that transforms Federal Reserve economic data into actionable investment insights. The platform synthesizes macro indicators, equity breadth, credit stress, Bitcoin analysis, and market correlations into a unified risk framework for portfolio management.",
         dayNumber: 2,
-        image: "/projects/ai-chat.png",
-        tags: ["Next.js", "AI", "Anthropic", "Streaming", "React"],
-        githubUrl: "https://github.com/yourusername/ai-chat",
-        liveUrl: "https://ai-chat.demo",
-        category: "AI/ML",
+        imageUrl: "/projects/finance-dashboard.png",
+        technologies: ["Next.js", "TypeScript", "FRED API", "Recharts", "Chart.js", "Tailwind CSS"],
+        githubUrl: null,
+        liveUrl: "https://clever-cocada-634d6f.netlify.app/guide",
+        category: "FinTech",
+        impact: "Democratizes institutional-grade macro analysis by consolidating 50+ economic indicators into simple, visual dashboards for retail investors",
         featured: true,
       },
     }),
 
     prisma.project.create({
       data: {
-        title: "Task Management Dashboard",
-        description:
-          "Kanban-style project management tool with drag-and-drop functionality, team collaboration features, and real-time updates using WebSockets.",
+        title: "Dot Fulfillment",
+        slug: "dot-fulfillment",
+        description: "Kit Manufacturing Management System",
+        longDescription:
+          "A full-featured operations management system designed for kit-based manufacturing businesses. Dot Fulfillment manages component libraries, bill of materials (BOM) configurations, project quoting, and generates professional SOWs with detailed pricing breakdowns—streamlining the entire quote-to-fulfillment workflow.",
         dayNumber: 3,
-        image: "/projects/task-dashboard.png",
-        tags: ["React", "TypeScript", "Tailwind", "DnD Kit", "WebSockets"],
-        githubUrl: "https://github.com/yourusername/task-dashboard",
-        liveUrl: "https://task-dashboard.demo",
-        category: "SaaS",
+        imageUrl: "/projects/dot-fulfillment.png",
+        technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "PDF Generation", "Tailwind CSS"],
+        githubUrl: null,
+        liveUrl: "https://fulfillment-app-proj.netlify.app/",
+        category: "Enterprise",
+        impact: "Reduces quote turnaround time from days to minutes by replacing fragmented spreadsheets with an integrated system",
         featured: true,
       },
     }),
 
     prisma.project.create({
       data: {
-        title: "E-commerce Storefront",
-        description:
-          "Modern e-commerce platform with product catalog, shopping cart, Stripe checkout, and order management. Includes admin dashboard for inventory tracking.",
+        title: "RetireRight",
+        slug: "retireright",
+        description: "Retirement Planning Calculator",
+        longDescription:
+          "A sophisticated retirement calculator that answers the critical question: 'When can I retire?' RetireRight uses compound growth modeling, inflation adjustments, the 4% safe withdrawal rule, and tax calculations to provide accurate, personalized retirement projections with visual portfolio growth charts.",
         dayNumber: 4,
-        image: "/projects/ecommerce.png",
-        tags: ["Next.js", "Stripe", "PostgreSQL", "Tailwind", "Vercel"],
-        githubUrl: "https://github.com/yourusername/ecommerce",
-        liveUrl: "https://ecommerce.demo",
-        category: "Full Stack",
-        featured: false,
-      },
-    }),
-
-    prisma.project.create({
-      data: {
-        title: "Analytics Dashboard",
-        description:
-          "Real-time analytics dashboard with customizable widgets, chart visualizations, and data export capabilities. Built with Chart.js and D3.js.",
-        dayNumber: 5,
-        image: "/projects/analytics.png",
-        tags: ["React", "Chart.js", "D3.js", "TypeScript", "Tailwind"],
-        githubUrl: "https://github.com/yourusername/analytics",
-        liveUrl: "https://analytics.demo",
-        category: "Data",
+        imageUrl: "/projects/retireright.png",
+        technologies: ["Next.js", "TypeScript", "Recharts", "Financial Modeling", "Tailwind CSS"],
+        githubUrl: null,
+        liveUrl: "https://retire-cf-planner.vercel.app/",
+        category: "FinTech",
+        impact: "Makes complex retirement planning accessible to everyone without requiring expensive financial advisor consultations",
         featured: true,
       },
     }),
 
     prisma.project.create({
       data: {
-        title: "API Documentation Generator",
-        description:
-          "Automatic API documentation tool that reads OpenAPI/Swagger specs and generates beautiful, interactive documentation with code examples.",
-        dayNumber: 6,
-        image: "/projects/api-docs.png",
-        tags: ["TypeScript", "OpenAPI", "Swagger", "MDX", "Next.js"],
-        githubUrl: "https://github.com/yourusername/api-docs",
-        liveUrl: "https://api-docs.demo",
-        category: "Tools",
-        featured: false,
-      },
-    }),
-
-    prisma.project.create({
-      data: {
-        title: "Social Media Scheduler",
-        description:
-          "Multi-platform social media scheduling tool supporting Twitter, LinkedIn, and Instagram. Features content calendar, auto-posting, and analytics.",
-        dayNumber: 7,
-        image: "/projects/social-scheduler.png",
-        tags: ["Next.js", "OAuth", "Cron", "PostgreSQL", "Redis"],
-        githubUrl: "https://github.com/yourusername/social-scheduler",
-        liveUrl: "https://social-scheduler.demo",
-        category: "SaaS",
-        featured: false,
-      },
-    }),
-
-    prisma.project.create({
-      data: {
-        title: "Markdown Blog Engine",
-        description:
-          "Lightning-fast blog platform powered by MDX. Features syntax highlighting, SEO optimization, RSS feeds, and static site generation.",
-        dayNumber: 8,
-        image: "/projects/blog-engine.png",
-        tags: ["Next.js", "MDX", "Tailwind", "SEO", "Static Generation"],
-        githubUrl: "https://github.com/yourusername/blog-engine",
-        liveUrl: "https://blog-engine.demo",
-        category: "Frontend",
-        featured: false,
+        title: "Football Stats Pro",
+        slug: "football-stats-pro",
+        description: "Live Sports Analytics Platform",
+        longDescription:
+          "A live sports analytics platform that aggregates real-time NFL and NCAA football scores, generates AI-powered win probability predictions, and provides comprehensive team analytics. The dashboard auto-refreshes every 60 seconds during live games and integrates weather data for enhanced predictions.",
+        dayNumber: 5,
+        imageUrl: "/projects/football-stats.png",
+        technologies: ["Next.js", "TypeScript", "ESPN API", "AI Algorithms", "Open-Meteo", "Tailwind CSS"],
+        githubUrl: null,
+        liveUrl: "https://gambleandgrumble.netlify.app/",
+        category: "Sports",
+        impact: "Consolidates fragmented sports data into a single, real-time dashboard with predictive analytics",
+        featured: true,
       },
     }),
   ]);
